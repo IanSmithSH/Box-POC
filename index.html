@@ -1,0 +1,61 @@
+<!--
+  Box UI Element Proof of Concept:
+  
+  This proof of concept uses the official Box UI Elements standalone via the Box CDN
+  (https://developer.box.com/guides/embed/ui-elements/installation/#manual-installation).
+  They can also be used through NPM (except the previewer) with React, however, it is
+  currently (as of 9/22/22) impossible to install them without downgrading Node and NPM
+  several versions and manually resolving dependency issues
+  (https://github.com/box/box-ui-elements/issues/3023). 
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Box File UI POC</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!--
+      Pollyfill dependency for Box UI Elements.
+      Alternatively, use "https://cdn01.boxcdn.net/polyfills/core-js/2.5.3/core.min.js"
+    -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
+
+    <!-- Box UI Elements stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn01.boxcdn.net/platform/preview/2.81.0/en-US/preview.css"
+    />
+  </head>
+  <body>
+    <div>
+      <label for="devTokenInput">Developer Token:</label>
+      <input id="devTokenInput" type="text" />
+      <button id="devTokenSubmit">Submit</button>
+    </div>
+
+    <div class="row">
+      <div class="column"></div>
+      <div class="column">
+        <div id="uploader"></div>
+        <div id="preview"></div>
+      </div>
+    </div>
+
+    <!-- Box UI Elements scripts -->
+    <script src="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.js"></script>
+    <script src="https://cdn01.boxcdn.net/platform/preview/2.81.0/en-US/preview.js"></script>
+
+    <!-- Site logic -->
+    <script src="js/api.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

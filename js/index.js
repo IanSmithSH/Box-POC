@@ -1,7 +1,4 @@
-const uploader = new Box.ContentUploader();
-const preview = new Box.Preview();
-
-let gAccessToken; // Developer access token token.
+let gAccessToken; // Developer access token.
 let gFolderId = 0;
 
 // Runs when access token submitted.
@@ -29,6 +26,9 @@ function onSubmit() {
 
 // Display Box UI Elements.
 function showBoxUi() {
+  const uploader = new Box.ContentUploader();
+  const preview = new Box.Preview();
+
   // Show the content uploader
   uploader.show(gFolderId, gAccessToken, {
     container: "#uploader",

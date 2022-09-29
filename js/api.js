@@ -13,7 +13,8 @@ function fetchBase(url, init) {
     },
     ...init,
   };
-  return fetch("https://cors-anywhere.herokuapp.com/" + url, _init);
+  // return fetch("https://cors-anywhere.herokuapp.com/" + url, _init);
+  return fetch(url, _init);
 }
 
 // Returns a list of all items in a folder/

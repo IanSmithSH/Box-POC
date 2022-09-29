@@ -2,7 +2,7 @@ let gAccessToken; // Developer access token.
 let gFolderId = 0;
 
 // Runs when access token submitted.
-function onSubmit() {
+function onSubmitAccessToken() {
   getFolderItems("0")
     .then((res) => {
       if (res.status >= 200 && res.status < 300) {
@@ -24,15 +24,10 @@ function onSubmit() {
   );
 }
 
-// Display Box UI Elements.
-function showBoxUi() {
+// Setup Box UI Elements.
+function setupBoxUi() {
   const uploader = new Box.ContentUploader();
   const preview = new Box.Preview();
-
-  // Show the content uploader
-  uploader.show(gFolderId, gAccessToken, {
-    container: "#uploader",
-  });
 
   // Log upload data to console
   uploader.on("complete", (data) => {
@@ -56,10 +51,19 @@ function showBoxUi() {
   });
 }
 
+// Display Box UI Elements.
+function showBoxUi() {
+  // Show the content uploader
+  uploader.show(gFolderId, gAccessToken, {
+    container: "#uploader",
+  });
+}
+
 function main() {
   document.getElementById("devTokenSubmit").addEventListener("click", () => {
     gAccessToken = document.getElementById("devTokenInput").value;
-    onSubmit();
+    onSubmitAccessToken();
+    setupBoxUi();
     showBoxUi();
   });
 }

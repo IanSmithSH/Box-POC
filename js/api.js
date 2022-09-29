@@ -1,6 +1,5 @@
 // Base fetch function with common headers.
-// Note: currently passes API calls through CORS Anywhere to fix local development
-// CORS errors.
+// Note: use a CORS proxy server to fix local development CORS errors.
 function fetchBase(url, init) {
   const headers = {
     Authorization: `Bearer ${gAccessToken}`,
@@ -13,6 +12,7 @@ function fetchBase(url, init) {
     },
     ...init,
   };
+  // Uncomment to fix local development CORS errors.
   // return fetch("https://cors-anywhere.herokuapp.com/" + url, _init);
   return fetch(url, _init);
 }

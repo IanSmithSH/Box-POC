@@ -1,34 +1,14 @@
+const folderPicker = new Box.FolderPicker();
+const uploader = new Box.ContentUploader();
+const preview = new Box.Preview();
+
+const ROOT_FOLDER = "0";
+
 let gAccessToken; // Developer access token.
 let gFolderId = 0;
 
-// Runs when access token submitted.
-function onSubmitAccessToken() {
-  getFolderItems("0")
-    .then((res) => {
-      if (res.status >= 200 && res.status < 300) {
-        return res.json();
-      } else {
-        throw new Error();
-      }
-    })
-    .then((data) => {
-      console.log(`${data.entries[0].name}: ${data.entries[0].id}`);
-      gFolderId = `${data.entries[0].id}`;
-    })
-    .catch((err) => console.log("fetch() failed"));
-
-  console.log(
-    createFolder("TestFolder", gFolderId).then((res) => {
-      return res.json();
-    })
-  );
-}
-
 // Setup Box UI Elements.
 function setupBoxUi() {
-  const uploader = new Box.ContentUploader();
-  const preview = new Box.Preview();
-
   // Log upload data to console
   uploader.on("complete", (data) => {
     console.log(`All files successfully uploaded: ${JSON.stringify(data)}`);
@@ -60,11 +40,31 @@ function showBoxUi() {
 }
 
 function main() {
-  document.getElementById("devTokenSubmit").addEventListener("click", () => {
-    gAccessToken = document.getElementById("devTokenInput").value;
-    onSubmitAccessToken();
-    setupBoxUi();
-    showBoxUi();
+  addEventListeners();
+}
+
+function addEventListeners() {
+  document
+    .getElementById("devTokenSubmit")
+    .addEventListener("click", onSubmitAccessToken);
+
+  folderPicker.addListener("choose", (folders) => {
+    console.log(folders[0]);
+    // TODO: set gFolderId to selected folder and show upload button.
+  });
+}
+
+// Runs when access token submitted.
+function onSubmitAccessToken() {
+  gAccessToken = document.getElementById("devTokenInput").value;
+  // Show pick folder button.
+  folderPicker.show(ROOT_FOLDER, gAccessToken, {
+    container: "#folderPicker",
+    modal: {
+      buttonLabel: "Pick Destination Folder",
+    },
+    maxSelectable: 1,
+    canCreateNewFolder: true,
   });
 }
 

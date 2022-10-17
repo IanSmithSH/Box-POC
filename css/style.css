@@ -5,10 +5,8 @@
 
 .row {
     display: flex;
-    background-color: lightgrey;
 }
 
 .col {
     width: 50%;
-    background-color: lightgrey;
 }

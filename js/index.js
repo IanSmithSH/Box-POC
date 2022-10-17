@@ -78,11 +78,13 @@ function showFolderPicker() {
       buttonLabel: "Pick Destination Folder",
     },
     maxSelectable: 1,
-    canCreateNewFolder: true,
+    canUpload: false,
+    canSetShareAccess: false,
   });
 }
 
 function log(msg) {
+  document.getElementById("log").textContent = msg;
   console.log(msg);
 }
 

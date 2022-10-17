@@ -34,13 +34,19 @@
       rel="stylesheet"
       href="https://cdn01.boxcdn.net/platform/preview/2.81.0/en-US/preview.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/picker.css"
+    />
   </head>
   <body>
-    <div>
+    <div id="accessToken">
       <label for="devTokenInput">Developer Token:</label>
       <input id="devTokenInput" type="text" />
       <button id="devTokenSubmit">Submit</button>
     </div>
+
+    <div id="folderPicker"></div>
 
     <div class="row">
       <div class="column"></div>
@@ -53,6 +59,7 @@
     <!-- Box UI Elements scripts -->
     <script src="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/uploader.js"></script>
     <script src="https://cdn01.boxcdn.net/platform/preview/2.81.0/en-US/preview.js"></script>
+    <script src="https://cdn01.boxcdn.net/platform/elements/15.0.0/en-US/picker.js"></script>
 
     <!-- Site logic -->
     <script src="js/api.js"></script>

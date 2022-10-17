@@ -7,6 +7,6 @@
     display: flex;
 }
 
-.col {
-    width: 50%;
+.column {
+    flex: 50%;
 }

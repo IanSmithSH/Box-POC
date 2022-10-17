@@ -1,5 +1,6 @@
 const folderPicker = new Box.FolderPicker();
 const uploader = new Box.ContentUploader();
+const previewPicker = new Box.FilePicker();
 const preview = new Box.Preview();
 
 const ROOT_FOLDER = "0";
@@ -30,22 +31,32 @@ function initEventListeners() {
     console.log(
       `Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`
     );
-    // Show the content preview
-    // preview.show(data.id, gAccessToken, {
-    //   container: "#preview",
-    // });
   });
 
   // Log upload data
 
   uploader.on("complete", (data) => {
     console.log(`All files successfully uploaded: ${JSON.stringify(data)}`);
+    previewPicker.show(gFolderId, gAccessToken, {
+      container: "#previewPicker",
+      modal: {
+        buttonLabel: "Pick File to preview",
+      },
+      maxSelectable: 1,
+    });
   });
 
   uploader.on("error", (data) => {
     console.log(
       `Error uploading file with name "${data.file.name}". The error was: "${data.error}"`
     );
+  });
+
+  previewPicker.addListener("choose", (files) => {
+    // Show the content preview
+    preview.show(files[0].id, gAccessToken, {
+      container: "#preview",
+    });
   });
 }
 

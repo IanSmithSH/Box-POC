@@ -10,6 +10,5 @@ This site uses the official [Box UI Elements](https://developer.box.com/guides/e
 
 ## To Do
 
-- Better documentation
+- Add metadata to uploads
 - Implement OAuth2
-- Somehow store word count

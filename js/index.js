@@ -6,7 +6,10 @@ const preview = new Box.Preview();
 const ROOT_FOLDER = "0";
 
 let gAccessToken; // Developer access token.
-let gFolderId = 0;
+let gFolder = {
+  id: "0",
+  name: "root",
+};
 
 function main() {
   initEventListeners();
@@ -18,11 +21,16 @@ function initEventListeners() {
     .getElementById("devTokenSubmit")
     .addEventListener("click", submitAccessToken);
 
+  // When upload folder is chosen: display its name and ID,
+  // and show the file uploader.
   folderPicker.addListener("choose", (folders) => {
-    gFolderId = folders[0].id;
+    gFolder.id = folders[0].id;
+    gFolder.name = folders[0].name;
+    document.getElementById("pickedFolderName").value = gFolder.name;
+    document.getElementById("pickedFolderId").value = gFolder.id;
 
     // Show uploader
-    uploader.show(gFolderId, gAccessToken, {
+    uploader.show(gFolder.id, gAccessToken, {
       container: "#uploader",
     });
   });
@@ -37,7 +45,7 @@ function initEventListeners() {
 
   uploader.on("complete", (data) => {
     log(`All files successfully uploaded: ${JSON.stringify(data)}`);
-    previewPicker.show(gFolderId, gAccessToken, {
+    previewPicker.show(gFolder.id, gAccessToken, {
       container: "#previewPicker",
       modal: {
         buttonLabel: "Pick File to preview",
@@ -84,7 +92,7 @@ function showFolderPicker() {
 }
 
 function log(msg) {
-  document.getElementById("log").textContent = msg;
+  document.getElementById("log").value = msg;
   console.log(msg);
 }
 

@@ -10,7 +10,6 @@ This site uses the official [Box UI Elements](https://developer.box.com/guides/e
 
 ## To Do
 
-- Documentation
-- Unhardcode file and folder IDs and names
+- Better documentation
 - Implement OAuth2
-- Create GitHub pages site
+- Somehow store word count

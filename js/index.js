@@ -44,7 +44,7 @@ function initEventListeners() {
   // Log upload data
 
   uploader.on("complete", (data) => {
-    log(`All files successfully uploaded: ${JSON.stringify(data)}`);
+    log("All files successfully uploaded!");
     previewPicker.show(gFolder.id, gAccessToken, {
       container: "#previewPicker",
       modal: {

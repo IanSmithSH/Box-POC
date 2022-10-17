@@ -12,9 +12,28 @@ function fetchBase(url, init) {
     },
     ...init,
   };
+  let res;
   // Uncomment to fix local development CORS errors.
-  // return fetch("https://cors-anywhere.herokuapp.com/" + url, _init);
-  return fetch(url, _init);
+  // fetch("https://cors-anywhere.herokuapp.com/" + url, _init)
+  fetch(url, _init)
+    .then(checkError)
+    .then((response) => {
+      res = response;
+      console.log(res);
+      return response;
+    })
+    .catch((error) => {
+      res = error;
+    });
+  return res;
+}
+
+function checkError(response) {
+  if (response.status >= 200 && response.status <= 299) {
+    return response.json();
+  } else {
+    throw Error(response.statusText);
+  }
 }
 
 // Returns a list of all items in a folder.
@@ -39,9 +58,9 @@ function createFolder(folderName, parentId) {
 
 // Check if a developer token is valid.
 function isValidAccessToken(devToken) {
-  let isValid;
+  let isValid = true;
   try {
-    isValid = getFolderItems("0").type !== "error";
+    getFolderItems("0");
   } catch (error) {
     isValid = false;
   } finally {

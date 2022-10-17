@@ -17,7 +17,7 @@ function fetchBase(url, init) {
   return fetch(url, _init);
 }
 
-// Returns a list of all items in a folder/
+// Returns a list of all items in a folder.
 function getFolderItems(folderId) {
   return fetchBase(`https://api.box.com/2.0/folders/${folderId}/items`, {
     method: "GET",
@@ -35,4 +35,9 @@ function createFolder(folderName, parentId) {
       },
     }),
   });
+}
+
+// Check if a developer token is valid.
+function isValidAccessToken(devToken) {
+  return getFolderItems("0").type !== "error";
 }

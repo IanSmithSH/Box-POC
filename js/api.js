@@ -39,5 +39,12 @@ function createFolder(folderName, parentId) {
 
 // Check if a developer token is valid.
 function isValidAccessToken(devToken) {
-  return getFolderItems("0").type !== "error";
+  let isValid;
+  try {
+    isValid = getFolderItems("0").type !== "error";
+  } catch (error) {
+    isValid = false;
+  } finally {
+    return isValid;
+  }
 }

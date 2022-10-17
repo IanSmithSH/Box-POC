@@ -28,7 +28,7 @@ function initEventListeners() {
   });
 
   uploader.on("upload", (data) => {
-    console.log(
+    log(
       `Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`
     );
   });
@@ -36,7 +36,7 @@ function initEventListeners() {
   // Log upload data
 
   uploader.on("complete", (data) => {
-    console.log(`All files successfully uploaded: ${JSON.stringify(data)}`);
+    log(`All files successfully uploaded: ${JSON.stringify(data)}`);
     previewPicker.show(gFolderId, gAccessToken, {
       container: "#previewPicker",
       modal: {
@@ -47,7 +47,7 @@ function initEventListeners() {
   });
 
   uploader.on("error", (data) => {
-    console.log(
+    log(
       `Error uploading file with name "${data.file.name}". The error was: "${data.error}"`
     );
   });
@@ -67,7 +67,7 @@ function submitAccessToken() {
   if (isValidAccessToken(gAccessToken)) {
     showFolderPicker();
   } else {
-    console.log("Invalid access token!");
+    log("Invalid access token!");
   }
 }
 
@@ -80,6 +80,10 @@ function showFolderPicker() {
     maxSelectable: 1,
     canCreateNewFolder: true,
   });
+}
+
+function log(msg) {
+  console.log(msg);
 }
 
 main();

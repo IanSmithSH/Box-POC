@@ -93,7 +93,7 @@ function showFolderPicker() {
 
 function log(msg) {
   document.getElementById("log").value = msg;
-  console.log(msg);
+  console.log("Log: " + msg);
 }
 
 main();

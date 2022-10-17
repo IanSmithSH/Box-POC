@@ -7,11 +7,23 @@ const ROOT_FOLDER = "0";
 let gAccessToken; // Developer access token.
 let gFolderId = 0;
 
-// Setup Box UI Elements.
-function setupBoxUi() {
-  // Log upload data to console
-  uploader.on("complete", (data) => {
-    console.log(`All files successfully uploaded: ${JSON.stringify(data)}`);
+function main() {
+  initEventListeners();
+}
+
+// Setup UI event listeners.
+function initEventListeners() {
+  document
+    .getElementById("devTokenSubmit")
+    .addEventListener("click", submitAccessToken);
+
+  folderPicker.addListener("choose", (folders) => {
+    gFolderId = folders[0].id;
+
+    // Show uploader
+    uploader.show(gFolderId, gAccessToken, {
+      container: "#uploader",
+    });
   });
 
   uploader.on("upload", (data) => {
@@ -19,9 +31,15 @@ function setupBoxUi() {
       `Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`
     );
     // Show the content preview
-    preview.show(data.id, gAccessToken, {
-      container: "#preview",
-    });
+    // preview.show(data.id, gAccessToken, {
+    //   container: "#preview",
+    // });
+  });
+
+  // Log upload data
+
+  uploader.on("complete", (data) => {
+    console.log(`All files successfully uploaded: ${JSON.stringify(data)}`);
   });
 
   uploader.on("error", (data) => {
@@ -31,33 +49,18 @@ function setupBoxUi() {
   });
 }
 
-// Display Box UI Elements.
-function showBoxUi() {
-  // Show the content uploader
-  uploader.show(gFolderId, gAccessToken, {
-    container: "#uploader",
-  });
-}
-
-function main() {
-  addEventListeners();
-}
-
-function addEventListeners() {
-  document
-    .getElementById("devTokenSubmit")
-    .addEventListener("click", onSubmitAccessToken);
-
-  folderPicker.addListener("choose", (folders) => {
-    console.log(folders[0]);
-    // TODO: set gFolderId to selected folder and show upload button.
-  });
-}
-
-// Runs when access token submitted.
-function onSubmitAccessToken() {
+// Runs when access token submit button clicked.
+function submitAccessToken() {
   gAccessToken = document.getElementById("devTokenInput").value;
   // Show pick folder button.
+  if (isValidAccessToken(gAccessToken)) {
+    showFolderPicker();
+  } else {
+    console.log("Invalid access token!");
+  }
+}
+
+function showFolderPicker() {
   folderPicker.show(ROOT_FOLDER, gAccessToken, {
     container: "#folderPicker",
     modal: {

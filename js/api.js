@@ -111,7 +111,6 @@ function isValidAccessToken(devToken) {
   let isValid = true;
   try {
     let f = getFolderItems("0");
-    console.log(f);
   } catch (error) {
     isValid = false;
   } finally {

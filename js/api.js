@@ -1,13 +1,9 @@
 // Base fetch function with common headers.
 // Note: use a CORS proxy server to fix local development CORS errors.
 function fetchBase(url, init) {
-  const headers = {
-    Authorization: `Bearer ${gAccessToken}`,
-    "Content-Type": "application/json",
-  };
   let _init = {
     headers: {
-      ...headers,
+      Authorization: `Bearer ${gAccessToken}`,
       ...init.headers,
     },
     ...init,
@@ -19,7 +15,6 @@ function fetchBase(url, init) {
     .then(checkError)
     .then((response) => {
       res = response;
-      console.log(res);
       return response;
     })
     .catch((error) => {
@@ -49,6 +44,7 @@ function getFolderItems(folderId) {
 function createFolder(folderName, parentId) {
   return fetchBase("https://api.box.com/2.0/folders", {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name: folderName,
       parent: {
@@ -70,6 +66,9 @@ function addMetadata(type, id, scope, template, metadata) {
     `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(metadata),
     }
   );

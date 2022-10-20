@@ -70,10 +70,12 @@ function initEventListeners() {
         buttonLabel: "Pick File to preview",
       },
       maxSelectable: 1,
+      canUpload: false,
+      canSetShareAccess: false,
+      canCreateNewFolder: false,
     });
   });
 
-  //
   previewPicker.addListener("choose", (files) => {
     gPreviewFile.id = files[0].id;
     gPreviewFile.name = files[0].name;
@@ -95,7 +97,6 @@ function submitAccessToken() {
   gAccessToken = document.getElementById("devTokenInput").value;
   // Show pick folder button.
   if (isValidAccessToken(gAccessToken)) {
-    log("");
     showFolderPicker();
   } else {
     log("Invalid access token!");
@@ -120,8 +121,8 @@ function setFolderInfoUi() {
 }
 
 function setFileInfoUi() {
-  document.getElementById("pickedFileName").value = gFile.name;
-  document.getElementById("pickedFileId").value = gFile.id;
+  document.getElementById("previewFileName").value = gFile.name;
+  document.getElementById("previewFileId").value = gFile.id;
 }
 
 function setFileMetadataUi() {

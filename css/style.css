@@ -2,6 +2,9 @@
     height: 400px;
     width: 100%;
 }
+.padded {
+    padding: 1%;
+}
 
 .row {
     display: flex;

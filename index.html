@@ -40,30 +40,63 @@
     />
   </head>
   <body>
-    <div id="accessToken">
-      <label for="devTokenInput">Developer Token:</label>
-      <input id="devTokenInput" type="text" />
-      <button id="devTokenSubmit">Submit</button>
-    </div>
-
-    <div class="row">
-      <div class="column">
-        <div id="folderPicker"></div>
-        <div id="uploader"></div>
-        <div id="previewPicker"></div>
-        <div id="preview"></div>
+    <div class="padded">
+      <div id="accessToken">
+        <label for="devTokenInput">Developer Token:</label>
+        <input id="devTokenInput" type="text" />
+        <button id="devTokenSubmit">Submit</button>
       </div>
-      <div class="column">
-        <div>
-          <output id="log">Test</output>
+
+      <div class="row">
+        <div class="column">
+          <div id="folderPicker"></div>
+          <div id="uploader"></div>
+          <div id="previewPicker"></div>
+          <div id="preview"></div>
         </div>
-        <div>
-          <label for="pickedFolderName">Folder Name: </label>
-          <output id="pickedFolderName">(None)</output>
-        </div>
-        <div>
-          <label for="pickedFolderId">Folder ID: </label>
-          <output id="pickedFolderId">(None)</output>
+        <div class="column">
+          <!-- <div>
+            <output id="log">Submit access token to procede.</output>
+          </div> -->
+
+          <h2>Folder Info:</h2>
+          <div>
+            <label for="pickedFolderName">Name: </label>
+            <output id="pickedFolderName">(None)</output>
+          </div>
+          <div>
+            <label for="pickedFolderId">ID: </label>
+            <output id="pickedFolderId">(None)</output>
+          </div>
+
+          <h2>Previewed File Info:</h2>
+          <div>
+            <label for="previewFileName">Name: </label>
+            <output id="previewFileName">(None)</output>
+          </div>
+          <div>
+            <label for="previewFileId">ID: </label>
+            <output id="previewFileId">(None)</output>
+          </div>
+
+          <h3>Translation Request Metadata:</h3>
+          <div>
+            <label for="metaId">Request ID: </label>
+            <output id="metaId">(None)</output>
+          </div>
+          <div>
+            <label for="metaPriority">Priority: </label>
+            <output id="metaPriority">(None)</output>
+          </div>
+          <div>
+            <label for="metaLanguage">Language: </label>
+            <output id="metaLanguage">(None)</output>
+          </div>
+          <div>
+            <label for="metaNotes">Notes: </label>
+            <output id="metaNotes">(None)</output>
+          </div>
+          </div>
         </div>
       </div>
     </div>

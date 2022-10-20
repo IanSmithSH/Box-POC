@@ -28,6 +28,7 @@ function fetchBase(url, init) {
   return res;
 }
 
+// Helper function for fetch request error handling.
 function checkError(response) {
   if (response.status >= 200 && response.status <= 299) {
     return response.json();
@@ -43,7 +44,8 @@ function getFolderItems(folderId) {
   });
 }
 
-// Create folder REST API call (https://developer.box.com/reference/post-folders/)
+// Create folder REST API call
+// https://developer.box.com/reference/post-folders/
 function createFolder(folderName, parentId) {
   return fetchBase("https://api.box.com/2.0/folders", {
     method: "POST",
@@ -56,11 +58,60 @@ function createFolder(folderName, parentId) {
   });
 }
 
+// Create an instance of a metadata template on a folder or file
+// https://developer.box.com/reference/post-files-id-metadata-id-id/
+// type: "file" | "folder"
+// id: file / folder ID
+// scope: owner of the template ("global" | "enterprise" | "enterprise_*")
+// template: name of template to be used
+// metadata: key value pairs as defined by the template
+function addMetadata(type, id, scope, template, metadata) {
+  return fetchBase(
+    `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
+    {
+      method: "POST",
+      body: JSON.stringify(metadata),
+    }
+  );
+}
+
+// Add metadata to a file using a custom "DocTranslationRequest" template.
+function addDocTransReqMetadata(id, metadata) {
+  return addMetadata(
+    "file",
+    id,
+    "enterprise",
+    "DocTranslationRequest",
+    metadata
+  );
+}
+
+// Get an instance of a metadata template on a folder or file.
+// https://developer.box.com/guides/metadata/instances/get/
+// type: "file" | "folder"
+// id: file / folder ID
+// scope: owner of the template ("global" | "enterprise" | "enterprise_*")
+// template: name of template to be used
+function getMetadata(type, id, scope, template) {
+  return fetchBase(
+    `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
+    {
+      method: "GET",
+    }
+  );
+}
+
+// Get metadata for a file using a custom "DocTranslationRequest" template.
+function getDocTransReqMetadata(id) {
+  return addMetadata("file", id, "enterprise", "DocTranslationRequest");
+}
+
 // Check if a developer token is valid.
 function isValidAccessToken(devToken) {
   let isValid = true;
   try {
-    getFolderItems("0");
+    let f = getFolderItems("0");
+    console.log(f);
   } catch (error) {
     isValid = false;
   } finally {

@@ -4,9 +4,19 @@ const uploader = new Box.ContentUploader();
 const previewPicker = new Box.FilePicker();
 const preview = new Box.Preview();
 
-const ROOT_FOLDER = "0";
+const gDocTransReqEnumVals = {
+  priority: ["Low", "Medium", "High"],
+  language: [
+    "Spanish",
+    "French",
+    "Italian",
+    "Chinese (traditional)",
+    "Chinese (simplified)",
+  ],
+};
 
-let gAccessToken; // Developer access token.
+// Developer access token.
+let gAccessToken;
 // Folder to upload to.
 let gFolder = {
   id: "invalid",
@@ -30,7 +40,7 @@ function main() {
 // Setup UI event listeners.
 function initEventListeners() {
   document
-    .getElementById("devTokenSubmit")
+    .getElementById("accessTokenSubmit")
     .addEventListener("click", submitAccessToken);
 
   // When upload folder is chosen: display its name and ID,
@@ -47,16 +57,21 @@ function initEventListeners() {
   });
 
   uploader.on("upload", (data) => {
-    log(
+    statusLog(
       `Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`
     );
 
     // Add metadata.
-    addDocTransReqMetadata(data.id, gMetadata);
+    let metadata = {
+      priority: getRandElem(gDocTransReqEnumVals.priority),
+      language: getRandElem(gDocTransReqEnumVals.language),
+      notes: `File ID: ${data.id}, uploaded: ${data.created_at}`,
+    };
+    addDocTransReqMetadata(data.id, metadata);
   });
 
   uploader.on("error", (data) => {
-    log(
+    statusLog(
       `Error uploading file with name "${data.file.name}". The error was: "${data.error}"`
     );
   });
@@ -94,18 +109,18 @@ function initEventListeners() {
 
 // Runs when access token submit button clicked.
 async function submitAccessToken() {
-  gAccessToken = document.getElementById("devTokenInput").value;
+  gAccessToken = document.getElementById("accessTokenInput").value;
   // Show pick folder button.
   if (await isValidAccessToken(gAccessToken)) {
+    statusLog("Select upload destination.");
     showFolderPicker();
-    let m = await getDocTransReqMetadata("1046030493918");
   } else {
-    log("Invalid access token!");
+    statusLog("Invalid access token!");
   }
 }
 
 function showFolderPicker() {
-  folderPicker.show(ROOT_FOLDER, gAccessToken, {
+  folderPicker.show(ROOT_FOLDER_ID, gAccessToken, {
     container: "#folderPicker",
     modal: {
       buttonLabel: "Pick Destination Folder",
@@ -132,9 +147,18 @@ function setFileMetadataUi() {
   document.getElementById("metaNotes").value = gMetadata.notes;
 }
 
-function log(msg) {
-  // document.getElementById("log").value = msg;
-  console.log("Log: " + msg);
+function statusLog(msg) {
+  document.getElementById("log").value = msg;
+  console.log("Status Log: " + msg);
+}
+
+function getRandElem(arr) {
+  return arr[getRandInt(0, arr.length)];
+}
+
+// Get a random integer in the range [min, max).
+function getRandInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 main();

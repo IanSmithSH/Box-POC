@@ -1,3 +1,5 @@
+const ROOT_FOLDER_ID = "0";
+
 // Base fetch function with common headers.
 // Note: use a CORS proxy server to fix local development CORS errors.
 async function fetchBase(url, init) {
@@ -14,22 +16,12 @@ async function fetchBase(url, init) {
   // Uncomment to fix local development CORS errors.
   // fetch("https://cors-anywhere.herokuapp.com/" + url, _init)
   return await fetch(url, _init)
-    .then(checkError)
     .then((response) => {
-      return response;
+      return response.json();
     })
     .catch((error) => {
       throw error;
     });
-}
-
-// Helper function for fetch request error handling.
-function checkError(response) {
-  if (response.status >= 200 && response.status <= 299) {
-    return response.json();
-  } else {
-    throw Error(response.statusText);
-  }
 }
 
 // Returns a list of all items in a folder.
@@ -59,7 +51,7 @@ async function createFolder(folderName, parentId) {
 // type: "files" | "folders"
 // id: file / folder ID
 // scope: owner of the template ("global" | "enterprise" | "enterprise_*")
-// template: name of template to be used
+// template: key of template to be used
 // metadata: key value pairs as defined by the template
 async function addMetadata(type, id, scope, template, metadata) {
   return await fetchBase(
@@ -90,7 +82,7 @@ async function addDocTransReqMetadata(id, metadata) {
 // type: "file" | "folder"
 // id: file / folder ID
 // scope: owner of the template ("global" | "enterprise" | "enterprise_*")
-// template: name of template to be used
+// template: key of template to be used
 async function getMetadata(type, id, scope, template) {
   return await fetchBase(
     `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
@@ -100,18 +92,30 @@ async function getMetadata(type, id, scope, template) {
   );
 }
 
-// Get metadata for a file using a custom "DocTranslationRequest" template.
+// Get metadata for a file using the "DocTranslationRequest" template.
 async function getDocTransReqMetadata(id) {
   return await getMetadata("files", id, "enterprise", "doctranslationrequest");
+}
+
+//
+
+// Get all metadata templates in a scope.
+// scope: "enterprise" | "global"
+async function getMetadataTemplates(scope) {
+  return await fetchBase(
+    `https://api.box.com/2.0/metadata_templates/${scope}`,
+    {
+      method: "GET",
+    }
+  );
 }
 
 // Check if a developer token is valid.
 async function isValidAccessToken(devToken) {
   let isValid = true;
   try {
-    await getFolderItems("0");
+    await getFolderItems(ROOT_FOLDER_ID);
   } catch (error) {
-    console.log(error);
     isValid = false;
   } finally {
     return isValid;

@@ -18,9 +18,9 @@ let gPreviewFile = {
   name: "invalid",
 };
 let gMetadata = {
-  priority: "invalid",
-  language: "invalid",
-  notes: "invalid",
+  priority: "Low",
+  language: "Spanish",
+  notes: "none",
 };
 
 function main() {
@@ -76,7 +76,7 @@ function initEventListeners() {
     });
   });
 
-  previewPicker.addListener("choose", (files) => {
+  previewPicker.addListener("choose", async (files) => {
     gPreviewFile.id = files[0].id;
     gPreviewFile.name = files[0].name;
 
@@ -87,17 +87,18 @@ function initEventListeners() {
 
     // Update file info and metadata UI
     setFileInfoUi();
-    gFile.metadata = getDocTransReqMetadata(gFile.id);
+    gMetadata = await getDocTransReqMetadata(gPreviewFile.id);
     setFileMetadataUi();
   });
 }
 
 // Runs when access token submit button clicked.
-function submitAccessToken() {
+async function submitAccessToken() {
   gAccessToken = document.getElementById("devTokenInput").value;
   // Show pick folder button.
-  if (isValidAccessToken(gAccessToken)) {
+  if (await isValidAccessToken(gAccessToken)) {
     showFolderPicker();
+    let m = await getDocTransReqMetadata("1046030493918");
   } else {
     log("Invalid access token!");
   }
@@ -121,16 +122,14 @@ function setFolderInfoUi() {
 }
 
 function setFileInfoUi() {
-  document.getElementById("previewFileName").value = gFile.name;
-  document.getElementById("previewFileId").value = gFile.id;
+  document.getElementById("previewFileName").value = gPreviewFile.name;
+  document.getElementById("previewFileId").value = gPreviewFile.id;
 }
 
 function setFileMetadataUi() {
-  console.log(gFile.metadata);
-  document.getElementById("metaId").value = gFile.metadata.id;
-  document.getElementById("metaPriority").value = gFile.metadata.priority;
-  document.getElementById("metaLanguage").value = gFile.metadata.language;
-  document.getElementById("metaNotes").value = gFile.metadata.notes;
+  document.getElementById("metaPriority").value = gMetadata.priority;
+  document.getElementById("metaLanguage").value = gMetadata.language;
+  document.getElementById("metaNotes").value = gMetadata.notes;
 }
 
 function log(msg) {

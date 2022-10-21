@@ -1,26 +1,26 @@
 // Base fetch function with common headers.
 // Note: use a CORS proxy server to fix local development CORS errors.
-function fetchBase(url, init) {
-  let _init = {
-    headers: {
-      Authorization: `Bearer ${gAccessToken}`,
-      ...init.headers,
-    },
-    ...init,
+async function fetchBase(url, init) {
+  let _init = { ...init };
+  let _headers = {
+    Authorization: `Bearer ${gAccessToken}`,
   };
-  let res;
+  if (_init.headers) {
+    Object.assign(_init.headers, _headers);
+  } else {
+    _init.headers = _headers;
+  }
+
   // Uncomment to fix local development CORS errors.
   // fetch("https://cors-anywhere.herokuapp.com/" + url, _init)
-  fetch(url, _init)
+  return await fetch(url, _init)
     .then(checkError)
     .then((response) => {
-      res = response;
       return response;
     })
     .catch((error) => {
-      res = error;
+      throw error;
     });
-  return res;
 }
 
 // Helper function for fetch request error handling.
@@ -33,16 +33,16 @@ function checkError(response) {
 }
 
 // Returns a list of all items in a folder.
-function getFolderItems(folderId) {
-  return fetchBase(`https://api.box.com/2.0/folders/${folderId}/items`, {
+async function getFolderItems(folderId) {
+  return await fetchBase(`https://api.box.com/2.0/folders/${folderId}/items`, {
     method: "GET",
   });
 }
 
 // Create folder REST API call
 // https://developer.box.com/reference/post-folders/
-function createFolder(folderName, parentId) {
-  return fetchBase("https://api.box.com/2.0/folders", {
+async function createFolder(folderName, parentId) {
+  return await fetchBase("https://api.box.com/2.0/folders", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -56,13 +56,13 @@ function createFolder(folderName, parentId) {
 
 // Create an instance of a metadata template on a folder or file
 // https://developer.box.com/reference/post-files-id-metadata-id-id/
-// type: "file" | "folder"
+// type: "files" | "folders"
 // id: file / folder ID
 // scope: owner of the template ("global" | "enterprise" | "enterprise_*")
 // template: name of template to be used
 // metadata: key value pairs as defined by the template
-function addMetadata(type, id, scope, template, metadata) {
-  return fetchBase(
+async function addMetadata(type, id, scope, template, metadata) {
+  return await fetchBase(
     `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
     {
       method: "POST",
@@ -75,12 +75,12 @@ function addMetadata(type, id, scope, template, metadata) {
 }
 
 // Add metadata to a file using a custom "DocTranslationRequest" template.
-function addDocTransReqMetadata(id, metadata) {
-  return addMetadata(
-    "file",
+async function addDocTransReqMetadata(id, metadata) {
+  return await addMetadata(
+    "files",
     id,
     "enterprise",
-    "DocTranslationRequest",
+    "doctranslationrequest",
     metadata
   );
 }
@@ -91,8 +91,8 @@ function addDocTransReqMetadata(id, metadata) {
 // id: file / folder ID
 // scope: owner of the template ("global" | "enterprise" | "enterprise_*")
 // template: name of template to be used
-function getMetadata(type, id, scope, template) {
-  return fetchBase(
+async function getMetadata(type, id, scope, template) {
+  return await fetchBase(
     `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
     {
       method: "GET",
@@ -101,16 +101,17 @@ function getMetadata(type, id, scope, template) {
 }
 
 // Get metadata for a file using a custom "DocTranslationRequest" template.
-function getDocTransReqMetadata(id) {
-  return addMetadata("file", id, "enterprise", "DocTranslationRequest");
+async function getDocTransReqMetadata(id) {
+  return await getMetadata("files", id, "enterprise", "doctranslationrequest");
 }
 
 // Check if a developer token is valid.
-function isValidAccessToken(devToken) {
+async function isValidAccessToken(devToken) {
   let isValid = true;
   try {
-    let f = getFolderItems("0");
+    await getFolderItems("0");
   } catch (error) {
+    console.log(error);
     isValid = false;
   } finally {
     return isValid;

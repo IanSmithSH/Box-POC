@@ -56,7 +56,7 @@ function initEventListeners() {
     });
   });
 
-  uploader.on("upload", (data) => {
+  uploader.addListener("upload", (data) => {
     statusLog(
       `Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`
     );
@@ -70,14 +70,14 @@ function initEventListeners() {
     addDocTransReqMetadata(data.id, metadata);
   });
 
-  uploader.on("error", (data) => {
+  uploader.addListener("error", (data) => {
     statusLog(
       `Error uploading file with name "${data.file.name}". The error was: "${data.error}"`
     );
   });
 
   // When all files have been uploaded, display the file preview picker.
-  uploader.on("complete", (data) => {
+  uploader.addListener("complete", (data) => {
     log("All files successfully uploaded!");
     previewPicker.show(gFolder.id, gAccessToken, {
       container: "#previewPicker",

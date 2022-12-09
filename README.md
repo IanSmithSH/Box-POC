@@ -1,6 +1,6 @@
 # Box UI Elements Proof of Concept
 
-This site uses the official [Box UI Elements](https://developer.box.com/guides/embed/ui-elements/) and REST API to upload and preview files.
+This site uses the official [Box UI Elements](https://developer.box.com/guides/embed/ui-elements/) and REST API to upload, preview, and add metadata to files.
 
 ## Usage
 
@@ -10,5 +10,4 @@ This site uses the official [Box UI Elements](https://developer.box.com/guides/e
 
 ## To Do
 
-- Add metadata to uploads
 - Implement OAuth2

@@ -1,9 +1,21 @@
+///// Copied from index.html /////
+// Box UI Element Proof of Concept:
+
+// This proof of concept uses the official Box UI Elements standalone via the Box CDN
+// (https://developer.box.com/guides/embed/ui-elements/installation/#manual-installation).
+// They can also be used through NPM (except the previewer) with React, however, it is
+// currently (as of 12/28/22) impossible to use them this way without downgrading Node and NPM
+// several versions and manually resolving dependency issues
+// (https://github.com/box/box-ui-elements/issues/3023).
+
 // Box UI elements.
 const folderPicker = new Box.FolderPicker();
 const uploader = new Box.ContentUploader();
 const previewPicker = new Box.FilePicker();
 const preview = new Box.Preview();
 
+// Correspond to allowed values in a custom metadata template.
+// https://support.box.com/hc/en-us/articles/360044196173-Using-Metadata
 const gDocTransReqEnumVals = {
   priority: ["Low", "Medium", "High"],
   language: [
@@ -15,18 +27,23 @@ const gDocTransReqEnumVals = {
   ],
 };
 
-// Developer access token.
+// Access token. A developer token can be generated through the developer console
+// but will need to be manually regenerated after an hour.
 let gAccessToken;
-// Folder to upload to.
+
+// Folder to upload to. Only the ID is used in API calls.
 let gFolder = {
   id: "invalid",
   name: "invalid",
 };
-// File currently being previewed.
+
+// File currently being previewed. Only the ID is used in API calls.
 let gPreviewFile = {
   id: "invalid",
   name: "invalid",
 };
+
+// Metadata for currently previewed file.
 let gMetadata = {
   priority: "Low",
   language: "Spanish",
@@ -43,7 +60,7 @@ function initEventListeners() {
     .getElementById("accessTokenSubmit")
     .addEventListener("click", submitAccessToken);
 
-  // When upload folder is chosen: display its name and ID,
+  // When upload folder is chosen, display its name and ID,
   // and show the file uploader.
   folderPicker.addListener("choose", (folders) => {
     gFolder.id = folders[0].id;
@@ -56,6 +73,7 @@ function initEventListeners() {
     });
   });
 
+  // Log upload message and attatch metadata to uploaded file.
   uploader.addListener("upload", (data) => {
     statusLog(
       `Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`
@@ -70,6 +88,7 @@ function initEventListeners() {
     addDocTransReqMetadata(data.id, metadata);
   });
 
+  // Log error message.
   uploader.addListener("error", (data) => {
     statusLog(
       `Error uploading file with name "${data.file.name}". The error was: "${data.error}"`
@@ -91,23 +110,24 @@ function initEventListeners() {
     });
   });
 
+  // When preview file chosen, show the Box UI preview element and get metadata.
   previewPicker.addListener("choose", async (files) => {
     gPreviewFile.id = files[0].id;
     gPreviewFile.name = files[0].name;
 
-    // Show the content preview
+    // Show the content preview.
     preview.show(gPreviewFile.id, gAccessToken, {
       container: "#preview",
     });
 
-    // Update file info and metadata UI
+    // Update file info and metadata UI.
     setFileInfoUi();
     gMetadata = await getDocTransReqMetadata(gPreviewFile.id);
     setFileMetadataUi();
   });
 }
 
-// Runs when access token submit button clicked.
+// Called when access token submit button clicked.
 async function submitAccessToken() {
   gAccessToken = document.getElementById("accessTokenInput").value;
   // Show pick folder button.
@@ -119,6 +139,8 @@ async function submitAccessToken() {
   }
 }
 
+// Called after access token button clicked and token is validated.
+// Shows the Box folder picker UI element.
 function showFolderPicker() {
   folderPicker.show(ROOT_FOLDER_ID, gAccessToken, {
     container: "#folderPicker",
@@ -131,27 +153,36 @@ function showFolderPicker() {
   });
 }
 
+// Display upload folder info on webpage.
 function setFolderInfoUi() {
   document.getElementById("pickedFolderName").value = gFolder.name;
   document.getElementById("pickedFolderId").value = gFolder.id;
 }
 
+// Display preview file info on webpage.
 function setFileInfoUi() {
   document.getElementById("previewFileName").value = gPreviewFile.name;
   document.getElementById("previewFileId").value = gPreviewFile.id;
 }
 
+// Display custom file metadata on webpage.
 function setFileMetadataUi() {
   document.getElementById("metaPriority").value = gMetadata.priority;
   document.getElementById("metaLanguage").value = gMetadata.language;
   document.getElementById("metaNotes").value = gMetadata.notes;
 }
 
+main();
+
+///// Utility /////
+
+// Display messages to webpage and browser console.
 function statusLog(msg) {
   document.getElementById("log").value = msg;
   console.log("Status Log: " + msg);
 }
 
+// Get a random array element.
 function getRandElem(arr) {
   return arr[getRandInt(0, arr.length)];
 }
@@ -160,5 +191,3 @@ function getRandElem(arr) {
 function getRandInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-
-main();

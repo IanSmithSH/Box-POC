@@ -1,7 +1,9 @@
+// Direct Box REST API calls.
+
 const ROOT_FOLDER_ID = "0";
 
 // Base fetch function with common headers.
-// Note: use a CORS proxy server to fix local development CORS errors.
+// Note: can use a CORS proxy server to fix local development CORS errors.
 async function fetchBase(url, init) {
   let _init = { ...init };
   let _headers = {
@@ -13,7 +15,7 @@ async function fetchBase(url, init) {
     _init.headers = _headers;
   }
 
-  // Uncomment to fix local development CORS errors.
+  // Uncomment to use CORS proxy for local development.
   // fetch("https://cors-anywhere.herokuapp.com/" + url, _init)
   return await fetch(url, _init)
     .then((response) => {
@@ -31,8 +33,10 @@ async function getFolderItems(folderId) {
   });
 }
 
-// Create folder REST API call
+// Create a folder in a parent folder
 // https://developer.box.com/reference/post-folders/
+// folderName: folder name (certain restrictions apply)
+// parentId: parent folder ID (0 is root folder)
 async function createFolder(folderName, parentId) {
   return await fetchBase("https://api.box.com/2.0/folders", {
     method: "POST",
@@ -52,7 +56,6 @@ async function createFolder(folderName, parentId) {
 // id: file / folder ID
 // scope: owner of the template ("global" | "enterprise" | "enterprise_*")
 // template: key of template to be used
-// metadata: key value pairs as defined by the template
 async function addMetadata(type, id, scope, template, metadata) {
   return await fetchBase(
     `https://api.box.com/2.0/${type}/${id}/metadata/${scope}/${template}`,
@@ -67,6 +70,8 @@ async function addMetadata(type, id, scope, template, metadata) {
 }
 
 // Add metadata to a file using a custom "DocTranslationRequest" template.
+// id: file ID
+// metadata: key value pairs as defined by the template
 async function addDocTransReqMetadata(id, metadata) {
   return await addMetadata(
     "files",
@@ -93,6 +98,7 @@ async function getMetadata(type, id, scope, template) {
 }
 
 // Get metadata for a file using the "DocTranslationRequest" template.
+// id: file ID
 async function getDocTransReqMetadata(id) {
   return await getMetadata("files", id, "enterprise", "doctranslationrequest");
 }
@@ -110,7 +116,7 @@ async function getMetadataTemplates(scope) {
   );
 }
 
-// Check if a developer token is valid.
+// Check if a developer token is valid by trying to make an API call.
 async function isValidAccessToken(devToken) {
   let isValid = true;
   try {

@@ -205,13 +205,13 @@ function showContentExplorer() {
   contentExplorer.show(ROOT_FOLDER_ID, gAccessToken, {
     container: "#contentExplorer",
     canPreview: gCanPreview,
-    // canDownload: gCanDownload,
-    // canDelete: gCanDelete,
-    // canRename: gCanRename,
-    // canUpload: gCanUpload,
-    // canCreateNewFolder: gCanCreateNewFolder,
-    // canShare: gCanShare,
-    // canSetShareAccess: gCanSetShareAccess,
+    canDownload: gCanDownload,
+    canDelete: gCanDelete,
+    canRename: gCanRename,
+    canUpload: gCanUpload,
+    canCreateNewFolder: gCanCreateNewFolder,
+    canShare: gCanShare,
+    canSetShareAccess: gCanSetShareAccess,
   });
 }
 

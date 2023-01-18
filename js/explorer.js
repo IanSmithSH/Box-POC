@@ -72,7 +72,7 @@ function initEventListeners() {
 
   document.getElementById("canPreviewToggle").addEventListener("click", (e) => {
     gCanPreview = !gCanPreview;
-    document.getElementById("canPreview").value = gCanPreview
+    document.getElementById("canPreview").innerHTML = gCanPreview
       ? "true"
       : "false";
     showContentExplorer();
@@ -81,42 +81,46 @@ function initEventListeners() {
     .getElementById("canDownloadToggle")
     .addEventListener("click", (e) => {
       gCanDownload = !gCanDownload;
-      document.getElementById("canDownload").value = gCanDownload
+      document.getElementById("canDownload").innerHTML = gCanDownload
         ? "true"
         : "false";
       showContentExplorer();
     });
   document.getElementById("canRenameToggle").addEventListener("click", (e) => {
     gCanRename = !gCanRename;
-    document.getElementById("canRename").value = gCanRename ? "true" : "false";
+    document.getElementById("canRename").innerHTML = gCanRename
+      ? "true"
+      : "false";
     showContentExplorer();
   });
   document.getElementById("canUploadToggle").addEventListener("click", (e) => {
     gCanUpload = !gCanUpload;
-    document.getElementById("canUpload").value = gCanUpload ? "true" : "false";
+    document.getElementById("canUpload").innerHTML = gCanUpload
+      ? "true"
+      : "false";
     showContentExplorer();
   });
   document
     .getElementById("canCreateNewFolderToggle")
     .addEventListener("click", (e) => {
       gCanCreateNewFolder = !gCanCreateNewFolder;
-      document.getElementById("canCreateNewFolder").value = gCanCreateNewFolder
-        ? "true"
-        : "false";
+      document.getElementById("canCreateNewFolder").innerHTML =
+        gCanCreateNewFolder ? "true" : "false";
       showContentExplorer();
     });
   document.getElementById("canShareToggle").addEventListener("click", (e) => {
     gCanShare = !gCanShare;
-    document.getElementById("canShare").value = gCanShare ? "true" : "false";
+    document.getElementById("canShare").innerHTML = gCanShare
+      ? "true"
+      : "false";
     showContentExplorer();
   });
   document
     .getElementById("canSetShareAccessToggle")
     .addEventListener("click", (e) => {
       gCanSetShareAccess = !gCanSetShareAccess;
-      document.getElementById("canSetShareAccess").value = gCanSetShareAccess
-        ? "true"
-        : "false";
+      document.getElementById("canSetShareAccess").innerHTML =
+        gCanSetShareAccess ? "true" : "false";
       showContentExplorer();
     });
 

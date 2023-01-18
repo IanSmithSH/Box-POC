@@ -69,12 +69,11 @@ function initEventListeners() {
   document
     .getElementById("accessTokenSubmit")
     .addEventListener("click", submitAccessToken);
-  document
-    .getElementById("reloadButton")
-    .addEventListener("click", showContentExplorer);
+
   document.getElementById("canPreviewToggle").addEventListener("click", (e) => {
     gCanPreview = !gCanPreview;
-    document.getElementById("canPreview").value = gCanPreview;
+    document.getElementById("canPreview").value = gCanPreview.ToString();
+    showContentExplorer();
   });
 
   // // When upload folder is chosen, display its name and ID,

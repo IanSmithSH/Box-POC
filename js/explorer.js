@@ -75,6 +75,44 @@ function initEventListeners() {
     document.getElementById("canPreview").value = gCanPreview.ToString();
     showContentExplorer();
   });
+  document
+    .getElementById("canDownloadToggle")
+    .addEventListener("click", (e) => {
+      gCanDownload = !gCanDownload;
+      document.getElementById("canDownload").value = gCanDownload.ToString();
+      showContentExplorer();
+    });
+  document.getElementById("canRenameToggle").addEventListener("click", (e) => {
+    gCanRename = !gCanRename;
+    document.getElementById("canRename").value = gCanRename.ToString();
+    showContentExplorer();
+  });
+  document.getElementById("canUploadToggle").addEventListener("click", (e) => {
+    gCanUpload = !gCanUpload;
+    document.getElementById("canUpload").value = gCanUpload.ToString();
+    showContentExplorer();
+  });
+  document
+    .getElementById("canCreateNewFolderToggle")
+    .addEventListener("click", (e) => {
+      gCanCreateNewFolder = !gCanCreateNewFolder;
+      document.getElementById("canCreateNewFolder").value =
+        gCanCreateNewFolder.ToString();
+      showContentExplorer();
+    });
+  document.getElementById("canShareToggle").addEventListener("click", (e) => {
+    gCanShare = !gCanShare;
+    document.getElementById("canShare").value = gCanShare.ToString();
+    showContentExplorer();
+  });
+  document
+    .getElementById("canSetShareAccessToggle")
+    .addEventListener("click", (e) => {
+      gCanSetShareAccess = !gCanSetShareAccess;
+      document.getElementById("canSetShareAccess").value =
+        gCanSetShareAccess.ToString();
+      showContentExplorer();
+    });
 
   // // When upload folder is chosen, display its name and ID,
   // // and show the file uploader.

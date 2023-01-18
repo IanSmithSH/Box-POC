@@ -72,45 +72,51 @@ function initEventListeners() {
 
   document.getElementById("canPreviewToggle").addEventListener("click", (e) => {
     gCanPreview = !gCanPreview;
-    document.getElementById("canPreview").value = gCanPreview.ToString();
+    document.getElementById("canPreview").value = gCanPreview
+      ? "true"
+      : "false";
     showContentExplorer();
   });
   document
     .getElementById("canDownloadToggle")
     .addEventListener("click", (e) => {
       gCanDownload = !gCanDownload;
-      document.getElementById("canDownload").value = gCanDownload.ToString();
+      document.getElementById("canDownload").value = gCanDownload
+        ? "true"
+        : "false";
       showContentExplorer();
     });
   document.getElementById("canRenameToggle").addEventListener("click", (e) => {
     gCanRename = !gCanRename;
-    document.getElementById("canRename").value = gCanRename.ToString();
+    document.getElementById("canRename").value = gCanRename ? "true" : "false";
     showContentExplorer();
   });
   document.getElementById("canUploadToggle").addEventListener("click", (e) => {
     gCanUpload = !gCanUpload;
-    document.getElementById("canUpload").value = gCanUpload.ToString();
+    document.getElementById("canUpload").value = gCanUpload ? "true" : "false";
     showContentExplorer();
   });
   document
     .getElementById("canCreateNewFolderToggle")
     .addEventListener("click", (e) => {
       gCanCreateNewFolder = !gCanCreateNewFolder;
-      document.getElementById("canCreateNewFolder").value =
-        gCanCreateNewFolder.ToString();
+      document.getElementById("canCreateNewFolder").value = gCanCreateNewFolder
+        ? "true"
+        : "false";
       showContentExplorer();
     });
   document.getElementById("canShareToggle").addEventListener("click", (e) => {
     gCanShare = !gCanShare;
-    document.getElementById("canShare").value = gCanShare.ToString();
+    document.getElementById("canShare").value = gCanShare ? "true" : "false";
     showContentExplorer();
   });
   document
     .getElementById("canSetShareAccessToggle")
     .addEventListener("click", (e) => {
       gCanSetShareAccess = !gCanSetShareAccess;
-      document.getElementById("canSetShareAccess").value =
-        gCanSetShareAccess.ToString();
+      document.getElementById("canSetShareAccess").value = gCanSetShareAccess
+        ? "true"
+        : "false";
       showContentExplorer();
     });
 

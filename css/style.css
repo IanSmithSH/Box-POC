@@ -2,6 +2,7 @@
     height: 400px;
     width: 100%;
 }
+
 .padded {
     padding: 1%;
 }
@@ -12,4 +13,9 @@
 
 .column {
     flex: 50%;
+}
+
+/* used in explorer.html */
+#rightColumn {
+    visibility: hidden !important;
 }

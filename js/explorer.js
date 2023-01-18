@@ -101,6 +101,7 @@ async function submitAccessToken() {
   if (await isValidAccessToken(gAccessToken)) {
     // statusLog("Select upload destination.");
     showContentExplorer();
+    document.getElementById("rightColumn").style.visibility = "visible";
   } else {
     statusLog("Invalid access token!");
   }

@@ -8,26 +8,16 @@ const contentExplorer = new Box.ContentExplorer();
 // but will need to be manually regenerated after an hour.
 let gAccessToken;
 
-// Folder to upload to. Only the ID is used in API calls.
-let gFolder = {
-  id: "invalid",
-  name: "invalid",
-};
-
-// File currently being previewed. Only the ID is used in API calls.
-let gPreviewFile = {
-  id: "invalid",
-  name: "invalid",
-};
-
+// Content explorer settings
+let gRootFolder = "0"; // Default is user's root folder
 let gCanPreview = true;
 let gCanDownload = true;
 let gCanDelete = true;
 let gCanRename = true;
 let gCanUpload = true;
 let gCanCreateNewFolder = true;
-let gCanShare = true;
-let gCanSetShareAccess = true;
+let gCanShare = true; // Can create shared link
+let gCanSetShareAccess = true; // Can set who can use the shared link
 
 function main() {
   // Hide settings until access token submitted
@@ -42,6 +32,10 @@ function initEventListeners() {
     .addEventListener("click", submitAccessToken);
 
   // Setup content explorer settings controls
+  document.getElementById("rootFolderSubmit").addEventListener("click", () => {
+    gRootFolder = document.getElementById("rootFolderInput").value;
+    showContentExplorer();
+  });
   document.getElementById("canPreviewToggle").addEventListener("click", (e) => {
     gCanPreview = !gCanPreview;
     document.getElementById("canPreview").innerHTML = gCanPreview
@@ -133,7 +127,7 @@ function initEventListeners() {
 // Called when access token submit button clicked.
 async function submitAccessToken() {
   gAccessToken = document.getElementById("accessTokenInput").value;
-  // Show pick folder button.
+  // Show content explorer and settings.
   if (await isValidAccessToken(gAccessToken)) {
     statusLog(
       "API documentation is at https://developer.box.com/guides/embed/ui-elements/explorer/"
@@ -148,7 +142,7 @@ async function submitAccessToken() {
 // Called after access token button clicked and token is validated.
 // Shows the Box content explorer UI element.
 function showContentExplorer() {
-  contentExplorer.show(ROOT_FOLDER_ID, gAccessToken, {
+  contentExplorer.show(gRootFolder, gAccessToken, {
     container: "#contentExplorer",
     canPreview: gCanPreview,
     canDownload: gCanDownload,
@@ -161,15 +155,15 @@ function showContentExplorer() {
   });
 }
 
+main();
+
+///// Utility /////
+
 // Display content explorer events to webpage and browser console.
 function eventLog(msg) {
   document.getElementById("eventData").value = msg;
   console.log("Event Log: " + msg);
 }
-
-main();
-
-///// Utility /////
 
 // Display messages to webpage and browser console.
 function statusLog(msg) {

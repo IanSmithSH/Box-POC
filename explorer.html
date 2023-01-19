@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="padded">
-      <div id="accessToken">
+      <div>
         <label for="accessTokenInput">Access Token:</label>
         <input id="accessTokenInput" type="text" />
         <button id="accessTokenSubmit">Submit</button>
@@ -42,6 +42,11 @@
           <div id="contentExplorer"></div>
         </div>
         <div id="rightColumn" class="column">
+          <div>
+            <label for="rootFolderInput">Root Folder ID:</label>
+            <input id="rootFolderInput" type="text" value="0" />
+            <button id="rootFolderSubmit">Submit</button>
+          </div>
           <div>
             <button id="canPreviewToggle">Toggle canPreview</button>
             <label for="canPreviewToggle" id="canPreview">true</label>

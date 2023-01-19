@@ -104,8 +104,29 @@ function initEventListeners() {
     });
 
   // Content explorer event listeners
-  contentExplorer.addEventListener("select", (selected) => {
-    statusLog(selected);
+  contentExplorer.addListener("select", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("rename", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("preview", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("download", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("delete", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("upload", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("navigate", (data) => {
+    statusLog(data);
+  });
+  contentExplorer.addListener("create", (data) => {
+    statusLog(data);
   });
 }
 

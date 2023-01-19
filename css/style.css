@@ -14,8 +14,3 @@
 .column {
     flex: 50%;
 }
-
-/* used in explorer.html */
-#rightColumn {
-    visibility: hidden;
-}

@@ -29,6 +29,8 @@ let gCanShare = true;
 let gCanSetShareAccess = true;
 
 function main() {
+  // Hide settings until access token submitted
+  document.getElementById("rightColumn").style.display = "none";
   initEventListeners();
 }
 
@@ -101,7 +103,7 @@ async function submitAccessToken() {
   if (await isValidAccessToken(gAccessToken)) {
     // statusLog("Select upload destination.");
     showContentExplorer();
-    document.getElementById("rightColumn").style.visibility = "visible";
+    document.getElementById("rightColumn").style.display = "block";
   } else {
     statusLog("Invalid access token!");
   }

@@ -17,5 +17,5 @@
 
 /* used in explorer.html */
 #rightColumn {
-    visibility: hidden !important;
+    visibility: hidden;
 }

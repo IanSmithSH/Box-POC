@@ -105,28 +105,28 @@ function initEventListeners() {
 
   // Content explorer event listeners
   contentExplorer.addListener("select", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("select: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("rename", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("rename: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("preview", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("preview: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("download", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("download: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("delete", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("delete: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("upload", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("upload: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("navigate", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("navigate: " + JSON.stringify(data, null, 4));
   });
   contentExplorer.addListener("create", (data) => {
-    statusLog(JSON.stringify(data, null, 4));
+    eventLog("create: " + JSON.stringify(data, null, 4));
   });
 }
 
@@ -135,7 +135,9 @@ async function submitAccessToken() {
   gAccessToken = document.getElementById("accessTokenInput").value;
   // Show pick folder button.
   if (await isValidAccessToken(gAccessToken)) {
-    // statusLog("Select upload destination.");
+    statusLog(
+      "API documentation is at https://developer.box.com/guides/embed/ui-elements/explorer/"
+    );
     showContentExplorer();
     document.getElementById("rightColumn").style.display = "block";
   } else {
@@ -159,16 +161,10 @@ function showContentExplorer() {
   });
 }
 
-// Display folder info on webpage.
-function setFolderInfoUi() {
-  document.getElementById("pickedFolderName").value = gFolder.name;
-  document.getElementById("pickedFolderId").value = gFolder.id;
-}
-
-// Display file info on webpage.
-function setFileInfoUi() {
-  document.getElementById("previewFileName").value = gPreviewFile.name;
-  document.getElementById("previewFileId").value = gPreviewFile.id;
+// Display content explorer events to webpage and browser console.
+function eventLog(msg) {
+  document.getElementById("eventData").value = msg;
+  console.log("Event Log: " + msg);
 }
 
 main();

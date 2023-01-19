@@ -1,4 +1,5 @@
 // Box Content Explorer Proof of Concept:
+// Documentation: https://developer.box.com/guides/embed/ui-elements/explorer/
 
 // Box content explorer UI element.
 const contentExplorer = new Box.ContentExplorer();
@@ -101,6 +102,11 @@ function initEventListeners() {
         gCanSetShareAccess ? "true" : "false";
       showContentExplorer();
     });
+
+  // Content explorer event listeners
+  contentExplorer.addEventListener("select", (selected) => {
+    statusLog(selected);
+  });
 }
 
 // Called when access token submit button clicked.

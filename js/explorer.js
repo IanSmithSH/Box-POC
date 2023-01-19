@@ -59,7 +59,7 @@ function initEventListeners() {
       showContentExplorer();
     });
   document.getElementById("canDeleteToggle").addEventListener("click", (e) => {
-    gCanDownload = !gCanDelete;
+    gCanDelete = !gCanDelete;
     document.getElementById("canDelete").innerHTML = gCanDelete
       ? "true"
       : "false";

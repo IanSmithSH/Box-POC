@@ -105,28 +105,28 @@ function initEventListeners() {
 
   // Content explorer event listeners
   contentExplorer.addListener("select", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("rename", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("preview", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("download", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("delete", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("upload", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("navigate", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
   contentExplorer.addListener("create", (data) => {
-    statusLog(data);
+    statusLog(JSON.stringigy(data, null, 4));
   });
 }
 

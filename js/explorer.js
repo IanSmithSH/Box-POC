@@ -57,6 +57,13 @@ function initEventListeners() {
         : "false";
       showContentExplorer();
     });
+  document.getElementById("canDeleteToggle").addEventListener("click", (e) => {
+    gCanDownload = !gCanDelete;
+    document.getElementById("canDelete").innerHTML = gCanDelete
+      ? "true"
+      : "false";
+    showContentExplorer();
+  });
   document.getElementById("canRenameToggle").addEventListener("click", (e) => {
     gCanRename = !gCanRename;
     document.getElementById("canRename").innerHTML = gCanRename

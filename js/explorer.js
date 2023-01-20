@@ -3,7 +3,6 @@
 
 // Box content explorer UI element.
 const contentExplorer = new Box.ContentExplorer();
-contentExplorer.state.isUploadModalOpen = true;
 
 // Access token. A developer token can be generated through the developer console
 // but will need to be manually regenerated after an hour.

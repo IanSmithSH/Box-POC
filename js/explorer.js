@@ -133,6 +133,9 @@ async function submitAccessToken() {
       "API documentation is at https://developer.box.com/guides/embed/ui-elements/explorer/"
     );
     showContentExplorer();
+    // Show the upload screen.
+    // This function is undocumented and can only be called after contentExplorer.show().
+    contentExplorer.component.upload();
     document.getElementById("rightColumn").style.display = "block";
   } else {
     statusLog("Invalid access token!");
